@@ -3,7 +3,7 @@ name: Run Scrapy Spider
 on:
   push:
     branches:
-      - main  # ou master, dependendo do nome da sua branch principal
+      - main  # ou master, dependendo da sua branch principal
 
 jobs:
   scrapy:
@@ -27,10 +27,15 @@ jobs:
       - name: Run Scrapy spider
         run: |
           scrapy crawl personagem -O status_personagens.json
+          
+      - name: List files in the current directory
+        run: |
+          echo "Listing files in the current directory:"
+          ls -l  # Este comando irá listar os arquivos gerados
 
       - name: Upload results as an artifact
-        if: success()  # Só fará o upload se o Scrapy foi bem-sucedido
+        if: success()  # Só faz o upload se o Scrapy foi bem-sucedido
         uses: actions/upload-artifact@v2
         with:
           name: status_personagens
-          path: status_personagens.json  # Aqui você especifica o caminho correto para o arquivo gerado
+          path: status_personagens.json  # Caminho correto para o arquivo gerado
