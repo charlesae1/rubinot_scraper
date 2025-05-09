@@ -3,7 +3,7 @@ name: Run Scrapy Spider
 on:
   push:
     branches:
-      - main
+      - main  # ou master, dependendo do nome da sua branch principal
 
 jobs:
   scrapy:
@@ -28,8 +28,9 @@ jobs:
         run: |
           scrapy crawl personagem -O status_personagens.json
 
-      - name: Upload results to GitHub
+      - name: Upload results as an artifact
+        if: success()  # Só fará o upload se o Scrapy foi bem-sucedido
         uses: actions/upload-artifact@v2
         with:
-          name: status_personagens.json
-          path: status_personagens.json
+          name: status_personagens
+          path: status_personagens.json  # Aqui você especifica o caminho correto para o arquivo gerado
